@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                                  http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+  <managed-bean>
+      <managed-bean-name>database</managed-bean-name>
+      <managed-bean-class>edu.course.dbcourse.db.DataBaseBean</managed-bean-class>
+      <managed-bean-scope>application</managed-bean-scope>
+      <managed-property>
+          <property-name>MAX_CONNECTIONS</property-name>
+          <value>5</value>
+      </managed-property>
+      <managed-property>
+          <property-name>username</property-name>
+          <value></value>
+      </managed-property>
+      <managed-property>
+          <property-name>password</property-name>
+          <value></value>
+      </managed-property>
+      <managed-property>
+          <property-name>dataBaseUrl</property-name>
+          <value></value>
+      </managed-property>
+  </managed-bean>
+</faces-config>
