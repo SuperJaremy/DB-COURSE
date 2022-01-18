@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DB-COURSE:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>DB-COURSE</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="DB-COURSE-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="DB-COURSE:war exploded" />
+    </root>
+  </artifact>
+</component>
