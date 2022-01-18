@@ -6,7 +6,7 @@ create or replace function fill_protocol() returns trigger as $$
     END;
 $$ language plpgsql;
 
-create or replace function set_policeman_on_mission() returns trigger as $$
+create or replace function set_policemen_on_mission() returns trigger as $$
     BEGIN
         update policemen set ready_status_id = (select id from ready_statuses where status = 'НА ЗАДАНИИ') where id = NEW.policeman_id;
         return NEW;
@@ -16,7 +16,7 @@ $$ language plpgsql;
 create or replace function set_machine_on_mission() returns trigger as $$
     BEGIN
         update machines set machine_status_id = (select id from machine_statuses where status = 'НА ЗАДАНИИ') where id = NEW.machine_id;
-        return NEW;    
+        return NEW;
     END;
 $$ language plpgsql;
 
@@ -106,7 +106,7 @@ create or replace function clean_fired_and_dead() returns void as $$
         to_clean integer[];
     BEGIN
         to_clean = array(select Policemen.ID from Policemen inner join Ready_statuses on (Policemen.Ready_status_id = Ready_statuses.id) where Status in ('УВОЛЕН', 'МЕРТВ'));
-        update Policeman set is_working = false where ID = any(to_clean);
+        update Policemen set is_working = false where ID = any(to_clean);
     END;
 $$ language plpgsql;
 
@@ -191,7 +191,7 @@ create or replace function transit() returns integer as $$
             end if;
         end if;
         select count(*) from Policemen inner join Divisions on (Policemen.Division_id = Divisions.ID) where Divisions.Name = 'Отдел спецопераций' and Policemen.is_working into soilders;
-        if soilders < executioners_threshold then
+        if soilders < swat_threshold then
             select ID from Divisions where Name = 'Патрульный отдел' into id_from;
             select ID, Bottom_line from Divisions where Name = 'Отдел спецопераций' into id_to, _bottom_line;
             candidates := array( select Policemen.ID from Policemen inner join Police_ranks on (Policemen.Police_rank_id = Police_ranks.ID) where Police_ranks.Sort >= _bottom_line and Policemen.Division_id = id_from and Policemen.is_working  order by Police_ranks.Sort);
