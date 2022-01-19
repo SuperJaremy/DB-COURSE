@@ -14,9 +14,9 @@ public class TestDatabase {
     static void getDB(){
         db = new DataBaseBean();
         db.setMAX_CONNECTIONS(4);
-        db.setUsername("sjar");
+        db.setUsername("");
         db.setPassword("");
-        db.setDataBaseUrl("jdbc:postgresql:course");
+        db.setDataBaseUrl("");
     }
 
     @Test
