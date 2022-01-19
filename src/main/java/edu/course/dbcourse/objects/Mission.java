@@ -1,5 +1,6 @@
 package edu.course.dbcourse.objects;
 
+import com.sun.java.swing.plaf.windows.WindowsBorders;
 import edu.course.dbcourse.db.Database;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -54,6 +55,9 @@ public class Mission {
 
     private static final String SELECT_NEXT = "select * from Mission where" +
             "id > %d and in_process = true order by id limit 1";
+
+    private static final String SELECT_WHERE_COMMANDER_AND_IN_PROCESS = "select id from Mission where " +
+            "commander = %d and in_process = true";
 
     public static Mission addNewMission(@NonNull Database db,
                                         @NonNull String address,
@@ -131,6 +135,16 @@ public class Mission {
             return null;
         }
         return null;
+    }
+
+    public static boolean checkCommander(@NonNull Database db, @NonNull Policeman policeman){
+        Database.Result res = db.executeStatement(String.format(SELECT_WHERE_COMMANDER_AND_IN_PROCESS, policeman.getId()));
+        try{
+            return res.isSuccess() && res.getResultSet().next();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean assignPolicemen(@NonNull Database db, @NonNull List<Policeman> policemen){
