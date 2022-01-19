@@ -29,7 +29,8 @@ select min(ID) from People into human_base;
 
 human_base := human_base - 1;
 
-insert into Divisions(Name) values ('Палачи'), ('Отдел спецопераций'), ('Патрульный отдел'), ('Технический отдел'), ('Юридический отдел');
+insert into Divisions(Name) values ('Палачи'), ('Отдел спецопераций'), ('Патрульный отдел'), ('Технический отдел'), ('Юридический отдел'), ('Тюремный персонал'),
+                                   ('Управляющий отдел');
 
 select ID from Divisions where Name = 'Палачи' into execs;
 
@@ -75,7 +76,7 @@ for i in 371..700 loop
 end loop; 
 
 for i in 701..900 loop
-    insert into Policemen(Human_id, Division_id, Police_rank_id, Ready_status_id) values (i + human_base, (i % 2) + execs + 3, round(random())::integer * 5 + 1 + rank_base, ready_id);
+    insert into Policemen(Human_id, Division_id, Police_rank_id, Ready_status_id) values (i + human_base, (i % 4) + execs + 3, round(random())::integer * 5 + 1 + rank_base, ready_id);
 end loop; 
 
 select min(ID) from Policemen into policemen_base;
@@ -86,9 +87,13 @@ update Divisions set Boss = policemen_base + 20 where ID = execs + 1;
 
 update Divisions set Boss = policemen_base + 170 where ID = execs + 2;
 
-update Divisions set Boss = policemen_base + 501 where ID = execs + 3;
+update Divisions set Boss = policemen_base + 501 where ID = execs + 5;
 
 update Divisions set Boss = policemen_base + 500 where ID = execs + 4;
+
+update divisions set boss = policemen_base + 502 where ID = execs + 6;
+
+update divisions set boss = policemen_base + 503 where ID = execs + 3;
 
 select min(ID) from Articles into article_base;
 
