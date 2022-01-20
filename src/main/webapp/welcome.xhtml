@@ -26,9 +26,9 @@
                     <ui:repeat value="${user.roles}" var="role" >
                         <ui:repeat value="${role.availablePages.keySet()}" var="tab">
                             <th>
-                                <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
+                                <h:commandButton action="#{tabs.displayPage()}" value="#{tab}">
                                     <f:param name="pageId" value="#{tab}"/>
-                                </h:commandLink>
+                                </h:commandButton>
                             </th>
                         </ui:repeat>
                     </ui:repeat>
