@@ -25,14 +25,14 @@
       </managed-property>
   </managed-bean>
     <navigation-rule>
-        <from-view-id>authentication.xhtml</from-view-id>
+        <from-view-id>/authentication.xhtml</from-view-id>
         <navigation-case>
             <if>#{authentication.authenticationSucceed}</if>
-            <to-view-id>welcome.xhtml</to-view-id>
+            <to-view-id>/welcome.xhtml</to-view-id>
         </navigation-case>
         <navigation-case>
             <if>#{!authentication.authenticationSucceed}</if>
-            <to-view-id>failed.xhtml</to-view-id>
+            <to-view-id>/failed.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>
