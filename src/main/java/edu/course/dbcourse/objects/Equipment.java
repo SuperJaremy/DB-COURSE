@@ -30,7 +30,7 @@ public class Equipment {
     private static final String UPDATE_STATUS_WHERE_ID = "update Armory set " +
             "Equipment_status_id = %d where id = %d";
 
-    public static Equipment getEquipmentById(@NonNull Database db, int serialNumber) {
+    public static Equipment getEquipmentBySerialNumber(@NonNull Database db, int serialNumber) {
         Database.Result res = db.executeStatement(String.format(SELECT_WHERE_SERIAL_NUMBER,
                 serialNumber));
         if(!res.isSuccess())

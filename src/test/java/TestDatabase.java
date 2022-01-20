@@ -64,7 +64,7 @@ public class TestDatabase {
     @Test
     @Order(6)
     public void testChangeEntity(){
-        Equipment eq = Equipment.getEquipmentById(db, 1109);
+        Equipment eq = Equipment.getEquipmentBySerialNumber(db, 1109);
         Assertions.assertNotNull(eq);
         List<EquipmentStatus> statuses = EquipmentStatus.getAllEquipmentStatuses(db);
         Assertions.assertNotNull(statuses);
