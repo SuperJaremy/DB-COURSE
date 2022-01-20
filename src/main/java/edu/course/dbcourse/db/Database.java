@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public interface Database {
 
     @AllArgsConstructor
-    public static class Result{
+    class Result{
 
         @Getter
         private ResultSet resultSet;
