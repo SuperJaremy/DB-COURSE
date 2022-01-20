@@ -8,34 +8,51 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
     <title>Criminal Code</title>
+    <link rel="stylesheet" href="borders.css"/>
 </h:head>
 <h:body>
-<div id="header">
-    <table>
-        <tr>
-            <th>#{user.id}</th>
-            <th><p>#{user.name}</p>#{user.surname}</th>
-            <th>#{user.division}</th>
-        </tr>
-    </table>
-</div>
-<div id="available options">
-    <h:form>
+    <div id="header">
         <table>
             <tr>
-                <ui:repeat value="${user.roles}" var="role" >
-                    <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                        <th>
-                            <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
-                                <f:param name="pageId" value="#{tab}"/>
-                            </h:commandLink>
-                        </th>
-                    </ui:repeat>
-                </ui:repeat>
+                <th>#{user.id}</th>
+                <th><p>#{user.name}</p>#{user.surname}</th>
+                <th>#{user.division}</th>
             </tr>
         </table>
+    </div>
+    <div id="available options">
+        <h:form>
+            <table>
+                <tr>
+                    <ui:repeat value="${user.roles}" var="role">
+                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
+                            <th>
+                                <h:commandButton action="#{tabs.displayPage()}" value="#{tab}">
+                                    <f:param name="pageId" value="#{tab}"/>
+                                </h:commandButton>
+                            </th>
+                        </ui:repeat>
+                    </ui:repeat>
+                </tr>
+            </table>
+        </h:form>
+    </div>
+    <h:form id="list">
+        <ui:repeat value="#{articles.currentFrame}" var="article">
+            <div class="bordered">
+                <p>ID: #{article.id}</p>
+                <p>Ранг: #{article.rank.rank}</p>
+                <p>Срок: #{article.punishment.years} лет  #{article.punishment.months} месяцев</p>
+                <p>#{article.text}</p>
+            </div>
+        </ui:repeat>
+        <h:commandButton value="&lt;" action="#{articles.moveBackward()}" rendered="#{articles.canMoveBackward}">
+            <f:ajax render="list" execute="@form"/>
+        </h:commandButton>
+        Лист #{articles.currentPage}
+        <h:commandButton value="&gt;" action="#{articles.moveForward()}" rendered="#{articles.canMoveForward}">
+            <f:ajax render="list" execute="@form"/>
+        </h:commandButton>
     </h:form>
-</div>
-Справочник
 </h:body>
 </html>
