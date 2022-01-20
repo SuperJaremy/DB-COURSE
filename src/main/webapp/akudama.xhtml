@@ -23,12 +23,12 @@
         <h:form>
             <table>
                 <tr>
-                    <ui:repeat value="${user.roles}" var="role" >
+                    <ui:repeat value="${user.roles}" var="role">
                         <ui:repeat value="${role.availablePages.keySet()}" var="tab">
                             <th>
-                                <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
+                                <h:commandButton action="#{tabs.displayPage()}" value="#{tab}">
                                     <f:param name="pageId" value="#{tab}"/>
-                                </h:commandLink>
+                                </h:commandButton>
                             </th>
                         </ui:repeat>
                     </ui:repeat>
@@ -36,6 +36,25 @@
             </table>
         </h:form>
     </div>
-Добавить акудама
+    <div class="addForm">
+        Введите данные Акудама
+        <h:form>
+            <h:outputLabel for="name" value="Имя"/>
+            <h:inputText id="name" value="#{akudama.name}" required="true" requiredMessage="Это поле обязательное">
+                <f:ajax render="nameError"/>
+            </h:inputText>
+            <br/>
+            <h:message for="name" class="error" id="nameError"/>
+            <br/>
+            <h:outputLabel for="surname" value="Фамилия"/>
+            <h:inputText id="surname" value="#{akudama.surname}"/>
+            <br/>
+            <h:commandButton value="Добавить" type="submit" action="#{akudama.addAkudama()}">
+                <f:ajax render="message" execute="@form"/>
+            </h:commandButton>
+            <br/>
+            <h:outputText value="#{akudama.message}" id="message"/>
+        </h:form>
+    </div>
 </h:body>
 </html>
