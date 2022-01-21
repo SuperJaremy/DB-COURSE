@@ -11,32 +11,7 @@
     <link rel="stylesheet" href="borders.css"/>
 </h:head>
 <h:body>
-    <div id="header">
-        <table>
-            <tr>
-                <th>#{user.id}</th>
-                <th><p>#{user.name}</p>#{user.surname}</th>
-                <th>#{user.division}</th>
-            </tr>
-        </table>
-    </div>
-    <div id="available options">
-        <h:form>
-            <table>
-                <tr>
-                    <ui:repeat value="${user.roles}" var="role">
-                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                            <th>
-                                <h:commandButton action="#{tabs.displayPage()}" value="#{tab}">
-                                    <f:param name="pageId" value="#{tab}"/>
-                                </h:commandButton>
-                            </th>
-                        </ui:repeat>
-                    </ui:repeat>
-                </tr>
-            </table>
-        </h:form>
-    </div>
+    <ui:include src="header.xhtml"/>
     <h:form id="list">
         <ui:repeat value="#{articles.currentFrame}" var="article">
             <div class="bordered">

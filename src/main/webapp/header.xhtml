@@ -1,0 +1,35 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <div id="header">
+        <table>
+            <tr>
+                <th>#{user.id}</th>
+                <th><p>#{user.name}</p>#{user.surname}</th>
+                <th>#{user.division}</th>
+            </tr>
+        </table>
+    </div>
+    <div id="availableOptions">
+        <h:form>
+            <table>
+                <tr>
+                    <ui:repeat value="${user.roles}" var="role">
+                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
+                            <th>
+                                <h:commandButton action="#{tabs.displayPage()}" value="#{tab}">
+                                    <f:param name="pageId" value="#{tab}"/>
+                                </h:commandButton>
+                            </th>
+                        </ui:repeat>
+                    </ui:repeat>
+                </tr>
+            </table>
+            <h:commandButton action="#{user.exit()}" value="Выход"/>
+        </h:form>
+    </div>
+</ui:composition>
+
+

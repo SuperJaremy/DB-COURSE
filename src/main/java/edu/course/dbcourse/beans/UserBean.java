@@ -37,13 +37,9 @@ public class UserBean {
         return user.getMyDivisionName();
     }
 
-    public int checkPages(){
-        int pages = 0;
-        for (Role role:
-             roles) {
-            pages += role.getAvailablePages().size();
-        }
-        return pages;
+    public String exit(){
+        this.user = null;
+        return "authentication";
     }
 
 }
