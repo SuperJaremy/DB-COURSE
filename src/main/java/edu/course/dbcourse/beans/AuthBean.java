@@ -42,7 +42,7 @@ public class AuthBean {
 
     private void setUserRoles(Policeman policeman){
         Set<Role> roles = Role.getRolesByDivision(user.getDivision());
-        if(Mission.checkCommander(db ,policeman))
+        if(Mission.getMissionsWithCommander(db, policeman) != null)
             roles.add(Role.MISSION_COMMANDER);
         user.setRoles(roles);
     }
