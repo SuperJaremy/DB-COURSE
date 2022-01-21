@@ -34,7 +34,7 @@ insert into Divisions(Name) values ('Палачи'), ('Отдел спецопе
 
 select ID from Divisions where Name = 'Палачи' into execs;
 
-insert into Ranks(Rank, Division_id, Sort) values ('D', execs+3, 1), ('C', execs+2, 2), ('B', execs+2, 3), ('A', execs+1, 4), ('S', execs, 5);
+insert into Ranks(Rank, Division_id, Sort) values ('D', execs+3, 1), ('C', execs+3, 2), ('B', execs+2, 3), ('A', execs+1, 4), ('S', execs, 5);
 
 select ID from Ranks where Sort = (select min(Sort) from Ranks) into lowest_rank;
 
