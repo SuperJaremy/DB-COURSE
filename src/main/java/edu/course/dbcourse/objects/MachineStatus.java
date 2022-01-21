@@ -33,10 +33,10 @@ public class MachineStatus {
                 while (rs.next()) {
                     int _id = rs.getInt("ID");
                     String _status = rs.getString("Status");
-                    rs.close();
                     if (_status != null)
                         statuses.add(new MachineStatus(_id, _status));
                 }
+                rs.close();
                 return statuses;
             } catch (SQLException e) {
                 System.out.println(e.getMessage());

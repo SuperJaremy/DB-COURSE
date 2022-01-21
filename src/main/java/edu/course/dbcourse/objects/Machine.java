@@ -28,7 +28,7 @@ public class Machine {
             "Serial_number = %d";
 
     private static final String INSERT = "insert into Machines(Serial_number, " +
-            "Equipment_type_id) values(%d, %d)";
+            "Machine_type_id) values(%d, %d)";
 
     private static final String UPDATE_STATUS_WHERE_ID = "update Machines set " +
             "Machine_status_id = %d where id = %d";
@@ -66,7 +66,7 @@ public class Machine {
         return null;
     }
 
-    public static boolean AddNewMachine(@NonNull Database db, int serialNumber,
+    public static boolean addNewMachine(@NonNull Database db, int serialNumber,
                                         @NonNull MachineType type) {
         Database.Result res = db.executeStatement(String.format(INSERT, serialNumber,
                 type.getId()));
@@ -74,10 +74,10 @@ public class Machine {
     }
 
     public static boolean changeMachineStatus(@NonNull Database db,
-                                              @NonNull Equipment eq,
+                                              @NonNull Machine machine,
                                               @NonNull MachineStatus status) {
         Database.Result res = db.executeStatement(String.format(UPDATE_STATUS_WHERE_ID,
-                status.getId(), eq.getId()));
+                status.getId(), machine.getId()));
        return res.isSuccess();
     }
 }
