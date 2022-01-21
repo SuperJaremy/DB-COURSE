@@ -5,37 +5,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Management</title>
+    <link rel="stylesheet" href="styles/borders.css"/>
 </h:head>
 <h:body>
-    <div id="header">
-        <table>
-            <tr>
-                <th>#{user.id}</th>
-                <th><p>#{user.name}</p>#{user.surname}</th>
-                <th>#{user.division}</th>
-            </tr>
-        </table>
-    </div>
-    <div id="available options">
+    <ui:include src="header.xhtml"/>
+    <p:growl id="growl" showDetail="true"/>
+    <p:dataList value="#{missionManagement.currentMissions}" var="mission" id="list">
         <h:form>
-            <table>
-                <tr>
-                    <ui:repeat value="${user.roles}" var="role" >
-                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                            <th>
-                                <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
-                                    <f:param name="pageId" value="#{tab}"/>
-                                </h:commandLink>
-                            </th>
-                        </ui:repeat>
-                    </ui:repeat>
-                </tr>
-            </table>
+            <div class="bordered" id="mission">
+                <p>ID #{mission.id}</p>
+                <p>Ранг: #{mission.rank.rank}</p>
+                <p>Адрес: #{mission.address}</p>
+                <p>Акудама: #{mission.target.human.name} #{mission.target.human.surname}</p>
+                <p>Коммандир: #{mission.missionCommander.myName} #{mission.missionCommander.mySurname}
+                    #{mission.missionCommander.myDivisionName}</p>
+                <p>
+                    Сотрудники на задании:
+                    <p:dataList value="#{mission.policemenOnDuty}" var="policman">
+                        <p>Сотрудник: #{policman.myName} #{policman.mySurname} #{policman.myDivisionName}</p>
+                    </p:dataList>
+                </p>
+                <p>
+                    Машины на задании:
+                    <p:dataList value="#{mission.machinesOnDuty}" var="machine">
+                        <p>Машина: #{machine.serialNumber} #{machine.type.type}</p>
+                    </p:dataList>
+                </p>
+                <p:commandButton action="#{missionManagement.callReinforcements(mission.id)}"
+                                 update="growl @form" value="Вызвать подкрепления"
+                                 resetValues="true"/>
+                <p:commandButton action="#{missionManagement.callReinforcements(mission.id)}"
+                                 update="growl" value="Акудама захвачен"/>
+                <h:outputText value="#{missionManagement.caughtMessages.get(mission.id)}" id="caughtMes"/>
+            </div>
         </h:form>
-    </div>
-Управление миссиями
+    </p:dataList>
 </h:body>
 </html>

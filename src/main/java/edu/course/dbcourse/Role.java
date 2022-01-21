@@ -9,8 +9,8 @@ public enum Role {
     LAWYER("Внести протокол", "protocol", "Справочник", "criminal_code"),
     TECHNICIAN("Гараж", "garage", "Оружейная", "armory"),
     PRISON_STAFF("Тюрьма", "prison"),
-    MANAGEMENT ("Персонал", "personnel", "Операции", "mission_management"),
-    MISSION_COMMANDER("Меню заданий", "missions");
+    MANAGEMENT ("Персонал", "personnel", "Операции", "missions"),
+    MISSION_COMMANDER("Меню заданий", "mission_management");
 
     private final @Getter
     Map<String, String> availablePages;

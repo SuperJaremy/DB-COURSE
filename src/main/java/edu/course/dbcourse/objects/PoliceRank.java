@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 public class PoliceRank {
@@ -66,5 +67,18 @@ public class PoliceRank {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PoliceRank that = (PoliceRank) o;
+        return id == that.id && rank.equals(that.rank);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, rank);
     }
 }

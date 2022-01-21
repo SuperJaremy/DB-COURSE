@@ -8,6 +8,7 @@ import lombok.NonNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @AllArgsConstructor
 public class Policeman implements User {
@@ -95,5 +96,18 @@ public class Policeman implements User {
     @Override
     public String getMyDivisionName() {
         return division.getName();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Policeman policeman = (Policeman) o;
+        return id == policeman.id && human.equals(policeman.human) && division.equals(policeman.division) && policeRank.equals(policeman.policeRank);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, human, division, policeRank);
     }
 }

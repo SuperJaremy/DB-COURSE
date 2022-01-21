@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 public class Division {
@@ -71,5 +72,18 @@ public class Division {
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Division division = (Division) o;
+        return id == division.id && boss_id == division.boss_id && name.equals(division.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, boss_id);
     }
 }
