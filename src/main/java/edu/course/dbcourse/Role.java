@@ -28,6 +28,10 @@ public enum Role {
         }
     }
 
+    public boolean isPageAvailable(String page){
+        return this.availablePages.containsValue(page);
+    }
+
     static {
         divisionsToRoles = new HashMap<>();
         final Set<Role> regularRole = new HashSet<>();

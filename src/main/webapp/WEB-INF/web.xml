@@ -20,4 +20,20 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
+    <filter>
+        <filter-name>login</filter-name>
+        <filter-class>edu.course.dbcourse.filters.LoginFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>roles</filter-name>
+        <filter-class>edu.course.dbcourse.filters.RoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>login</filter-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>roles</filter-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </filter-mapping>
 </web-app>
