@@ -37,7 +37,10 @@ public class Policeman implements User {
     private static final String SELECT_WHERE_HUMAN_ID = "select * from Policemen where " +
             "human_id = %d";
 
-    public static boolean AddPoliceman(@NonNull Database db,
+    private static final String UPDATE_STATUS_WHERE_ID = "update Policemen set Ready_status_id " +
+            "= %d where id = %d";
+
+    public static boolean addPoliceman(@NonNull Database db,
                                        @NonNull Human human,
                                        @NonNull Division division,
                                        @NonNull PoliceRank rank) {
@@ -50,12 +53,12 @@ public class Policeman implements User {
 
     }
 
-    public static Policeman getPolicemanByHumanId(@NonNull Database db, @NonNull Human human){
+    public static Policeman getPolicemanByHumanId(@NonNull Database db, @NonNull Human human) {
         return retrievePoliceman(db, db.executeStatement(String.format(SELECT_WHERE_HUMAN_ID, human.getId())));
     }
 
-    private static Policeman retrievePoliceman(@NonNull Database db, Database.Result res){
-        if(!res.isSuccess())
+    private static Policeman retrievePoliceman(@NonNull Database db, Database.Result res) {
+        if (!res.isSuccess())
             return null;
         ResultSet rs = res.getResultSet();
         try {
@@ -76,6 +79,12 @@ public class Policeman implements User {
             return null;
         }
         return null;
+    }
+
+    public static boolean changePolicemanStatus(@NonNull Database db, @NonNull Policeman policeman,
+                                                @NonNull ReadyStatus readyStatus) {
+        return (db.executeStatement(String.format(UPDATE_STATUS_WHERE_ID, readyStatus.getId(),
+                policeman.getId()))).isSuccess();
     }
 
     @Override
