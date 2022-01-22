@@ -24,6 +24,8 @@ public class Human {
     private String surname;
 
     private static final String SELECT_WHERE_ID = "select * from People where id = %d";
+    private static final String SELECT_WHERE_NAME = "select * from People where " +
+            "Name = '%s' and Surname is null";
     private static final String SELECT_WHERE_NAME_SURNAME = "select * from People where " +
             "Name = '%s' and Surname = %s";
 
@@ -32,9 +34,10 @@ public class Human {
     }
 
     public static Human getHumanByNameSurname(@NonNull Database db, @NonNull String name, String surname) {
-        if (surname != null)
-            surname = "'" + surname + "'";
-        return retrieveHuman(db.executeStatement(String.format(SELECT_WHERE_NAME_SURNAME,
+        String statement = SELECT_WHERE_NAME_SURNAME;
+        if(surname == null || surname.equals(""))
+            statement = SELECT_WHERE_NAME;
+        return retrieveHuman(db.executeStatement(String.format(statement,
                 name, surname)));
     }
 
@@ -48,9 +51,9 @@ public class Human {
                 int _id;
                 String _name;
                 String _surname;
-                _id = rs.getInt(1);
-                _name = rs.getString(2);
-                _surname = rs.getString(3);
+                _id = rs.getInt("id");
+                _name = rs.getString("name");
+                _surname = rs.getString("surname");
                 rs.close();
                 return new Human(_id, _name, _surname);
             }
