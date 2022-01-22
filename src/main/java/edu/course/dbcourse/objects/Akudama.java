@@ -31,6 +31,9 @@ public class Akudama {
     private static final String SELECT_WHERE_ID = "select * from Akudama where " +
             "id = %d";
 
+    private static final String INSERT_PROTOCOL = "insert into protocols(akudama_id, article_id," +
+            "added_by) values(%d, %d, %d)";
+
     public static boolean addAkudamaByHuman(@NonNull Database db, @NonNull Human human) {
         int human_id = human.getId();
         Database.Result rs = db.executeStatement(String.format(INSERT_HUMAN_ID, human_id));
@@ -67,5 +70,9 @@ public class Akudama {
             return null;
         }
         return null;
+    }
+
+    public boolean makeProtocol(@NonNull Database db, @NonNull Article article, @NonNull Policeman policeman){
+        return (db.executeStatement(String.format(INSERT_PROTOCOL, this.id, article.getId(), policeman.getId()))).isSuccess();
     }
 }

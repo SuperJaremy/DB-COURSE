@@ -5,37 +5,60 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Protocol</title>
+    <script type="text/javascript" src="scripts/switchOptions.js"></script>
 </h:head>
-<h:body>
-    <div id="header">
-        <table>
-            <tr>
-                <th>#{user.id}</th>
-                <th><p>#{user.name}</p>#{user.surname}</th>
-                <th>#{user.division}</th>
-            </tr>
-        </table>
-    </div>
-    <div id="available options">
+<h:body onload="switchOptions('nameSurname')">
+    <ui:include src="header.xhtml"/>
+    <div>
         <h:form>
+            <p:growl showDetail="true" id="growl"/>
             <table>
                 <tr>
-                    <ui:repeat value="${user.roles}" var="role" >
-                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                            <th>
-                                <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
-                                    <f:param name="pageId" value="#{tab}"/>
-                                </h:commandLink>
-                            </th>
-                        </ui:repeat>
-                    </ui:repeat>
+                    <th>
+                        <h:panelGroup layout="block" id="akudamaChoose">
+                            <p>Акудама</p>
+                            <div class="option" id="nameSurname">
+                                <p>
+                                    <p:inputText id="float-input-name" value="#{protocol.name}"/>
+                                    <p:outputLabel for="@previous" value="Имя"/>
+                                </p>
+                                <p>
+                                    <p:inputText id="float-input-surname" value="#{protocol.surname}"/>
+                                    <p:outputLabel for="@previous" value="Фамилия"/>
+                                </p>
+                                <p:commandButton value="Выбрать по ID" resetValues="true"
+                                                 actionListener="#{protocol.setNameSurname(false)}"
+                                                 onclick="switchOptions('id')"/>
+                            </div>
+                            <div class="option" id="id">
+                                <p>
+                                    <p:inputText id="float-input-id" value="#{protocol.akudamaId}"
+                                                 converter="javax.faces.Integer"/>
+                                    <p:outputLabel for="@previous" value="ID"/>
+                                </p>
+                                <p:commandButton value="Выбрать по имени и фамилии" resetValues="true"
+                                                 actionListener="#{protocol.setNameSurname(true)}"
+                                                 onclick="switchOptions('nameSurname')"/>
+                            </div>
+                            <p>
+                            </p>
+                        </h:panelGroup>
+                    </th>
+                    <th>
+                        <p>Статья</p>
+                        <p:inputText id="float-input-article" value="#{protocol.articleId}"
+                                     converter="javax.faces.Integer"/>
+                        <p:outputLabel for="@previous" value="ID"/>
+                    </th>
                 </tr>
             </table>
+            <p:commandButton action="#{protocol.sendProtocol()}" resetValues="true" update="growl"
+                             value="Отправить"/>
         </h:form>
     </div>
-Внести протокол
 </h:body>
 </html>
