@@ -20,7 +20,7 @@ public class RoleFilter implements Filter {
         HttpSession session = req.getSession();
         String pageRequested = req.getRequestURL().toString();
         UserBean user = (UserBean) session.getAttribute("user");
-        if(user == null || user.getUser() == null || pageRequested.contains("faces/welcome.xhtml")
+        if(user == null || user.getUser() == null || !pageRequested.contains("faces")  || pageRequested.contains("faces/welcome.xhtml")
         || pageRequested.contains("faces/authentication.xhtml")){
             filterChain.doFilter(servletRequest, servletResponse);
             return;
