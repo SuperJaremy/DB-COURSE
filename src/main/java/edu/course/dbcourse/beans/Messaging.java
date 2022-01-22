@@ -8,4 +8,12 @@ public interface Messaging {
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(severity, summary, detail));
     }
+
+    default void addError(String summary, String details){
+        addMessage(FacesMessage.SEVERITY_ERROR, summary, details);
+    }
+
+    default void addInfo(String summary, String detaills){
+        addMessage(FacesMessage.SEVERITY_INFO, summary, detaills);
+    }
 }
