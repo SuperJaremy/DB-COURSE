@@ -5,37 +5,89 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Personnel</title>
+    <link rel="stylesheet" href="styles/option.css"/>
+    <script src="scripts/switchOptions.js" type="text/javascript"></script>
 </h:head>
 <h:body>
-    <div id="header">
-        <table>
-            <tr>
-                <th>#{user.id}</th>
-                <th><p>#{user.name}</p>#{user.surname}</th>
-                <th>#{user.division}</th>
-            </tr>
-        </table>
+    <ui:include src="header.xhtml"/>
+    <div class="main">
+        <p>Что требуется сделать?</p>
+        <p>
+            <button onclick="switchOptions('add')">Добавить сотрудника</button>
+        </p>
+        <p>
+            <button onclick="switchOptions('change')">Изменить статус сотрудника</button>
+        </p>
     </div>
-    <div id="available options">
+    <div class="option" id="add">
+        <p>Введите данные сотрудника</p>
         <h:form>
-            <table>
-                <tr>
-                    <ui:repeat value="${user.roles}" var="role" >
-                        <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                            <th>
-                                <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
-                                    <f:param name="pageId" value="#{tab}"/>
-                                </h:commandLink>
-                            </th>
-                        </ui:repeat>
-                    </ui:repeat>
-                </tr>
-            </table>
+            <p:growl id="growl" showDetail="true"/>
+            <p>
+                <p:outputLabel for="@next" value="Имя"/>
+                <br/>
+                <p:inputText value="#{personnel.name}"
+                             placeholder="Введите Имя"/>
+            </p>
+            <p>
+                <p:outputLabel for="@next" value="Фамилия"/>
+                <br/>
+                <p:inputText value="#{personnel.surname}"
+                             placeholder="Введите Фамилию"/>
+            </p>
+            <div class="p-field p-col-12 p-md-4">
+                <p:outputLabel for="@next" value="Дивизия"/>
+                <br/>
+                <p:selectOneMenu value="#{personnel.division}"
+                                 hideNoSelectionOption="#{not empty personnel.division}">
+                    <p:ajax update="@this" process="@this"/>
+                    <f:selectItem itemLabel="Выберите дивизию" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{personnel.divisions}" var="division"
+                                   itemValue="#{division.name}" itemLabel="#{division.name}"/>
+                </p:selectOneMenu>
+            </div>
+            <div class="p-field p-col-12 p-md-4">
+                <p:outputLabel for="@next" value="Ранг"/>
+                <br/>
+                <p:selectOneMenu value="#{personnel.rank}"
+                                 hideNoSelectionOption="#{not empty personnel.rank}">
+                    <p:ajax update="@this" process="@this"/>
+                    <f:selectItem itemLabel="Выберите ранг" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{personnel.ranks}" var="rank"
+                                   itemValue="#{rank.rank}" itemLabel="#{rank.rank}"/>
+                </p:selectOneMenu>
+            </div>
+            <p:commandButton value="Добавить" update="@form" resetValues="true"
+                             action="#{personnel.addPoliceman()}"/>
         </h:form>
     </div>
-Управление персоналом
+    <div class="option" id="change">
+        <p>Укажите новый статус</p>
+        <h:form>
+            <p:growl id="growl1" showDetail="true"/>
+            <p>
+                <p:outputLabel value="ID" for="@next"/>
+                <br/>
+                <p:inputText value="#{personnel.id}" placeholder="Введите номер">
+                </p:inputText>
+            </p>
+            <p>
+                <p:outputLabel for="@next" value="Статус"/>
+                <br/>
+                <p:selectOneMenu value="#{personnel.status}"
+                                 hideNoSelectionOption="#{not empty personnel.status}">
+                    <f:selectItem itemLabel="Выберите статус" itemValue="#{null}" noSelectionOption="true"/>
+                    <f:selectItems value="#{personnel.statuses}" var="status"
+                                   itemValue="#{status.status}" itemLabel="#{status.status}"/>
+                </p:selectOneMenu>
+            </p>
+            <p:commandButton value="Изменить" update="@form" resetValues="true"
+                             action="#{personnel.changeStatus()}"/>
+        </h:form>
+    </div>
 </h:body>
 </html>
