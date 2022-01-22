@@ -7,6 +7,7 @@ import lombok.NonNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @AllArgsConstructor
 public class Akudama {
@@ -74,5 +75,18 @@ public class Akudama {
 
     public boolean makeProtocol(@NonNull Database db, @NonNull Article article, @NonNull Policeman policeman){
         return (db.executeStatement(String.format(INSERT_PROTOCOL, this.id, article.getId(), policeman.getId()))).isSuccess();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Akudama akudama = (Akudama) o;
+        return id == akudama.id && human.equals(akudama.human) && rank.equals(akudama.rank);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, human, rank);
     }
 }

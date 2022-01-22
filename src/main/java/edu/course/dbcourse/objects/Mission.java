@@ -50,7 +50,7 @@ public class Mission {
     private static final String SELECT_WHERE_ID = "select * from Mission where " +
             "id = %d";
 
-    private static final String SELECT_NEXT = "select * from Mission where" +
+    private static final String SELECT_NEXT = "select * from Mission where " +
             "id > %d and in_process = true order by id limit 1";
 
     private static final String SELECT_WHERE_COMMANDER_AND_IN_PROCESS = "select * from Mission where " +
@@ -207,6 +207,19 @@ public class Mission {
         return this.machines_on_duty.getMachines();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mission mission = (Mission) o;
+        return id == mission.id && address.equals(mission.address) && target.equals(mission.target) && rank.equals(mission.rank) && missionCommander.equals(mission.missionCommander);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, address, target, rank, missionCommander);
+    }
+
     @AllArgsConstructor
     private static class PolicemenOnDuty {
 
@@ -218,7 +231,7 @@ public class Mission {
                 "Policemen_on_duty where Mission_id = %d";
 
         private static final String INSERT_POLICEMAN = "select equip_policemen(" +
-                "ARRAY%s, %d)";
+                "ARRAY%s::integer[], %d)";
 
         private static PolicemenOnDuty getPolicemenByMissionId(@NonNull Database db, int mission_id) {
             Database.Result res = db.executeStatement(String.format(SELECT_WHERE_MISSION_ID,
