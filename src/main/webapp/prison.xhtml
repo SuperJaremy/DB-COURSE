@@ -5,37 +5,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Prison</title>
+    <link rel="stylesheet" href="styles/borders.css"/>
 </h:head>
 <h:body>
-<div id="header">
-    <table>
-        <tr>
-            <th>#{user.id}</th>
-            <th><p>#{user.name}</p>#{user.surname}</th>
-            <th>#{user.division}</th>
-        </tr>
-    </table>
-</div>
-<div id="available options">
+    <ui:include src="header.xhtml"/>
     <h:form>
-        <table>
-            <tr>
-                <ui:repeat value="${user.roles}" var="role" >
-                    <ui:repeat value="${role.availablePages.keySet()}" var="tab">
-                        <th>
-                            <h:commandLink action="#{tabs.displayPage()}" value="#{tab}">
-                                <f:param name="pageId" value="#{tab}"/>
-                            </h:commandLink>
-                        </th>
-                    </ui:repeat>
-                </ui:repeat>
-            </tr>
-        </table>
+        <p:growl id="growl" showDetail="true"/>
+        <p:panel toggleable="true" toggleSpeed="500"
+                 widgetVar="panel" header="Добавить заключённого">
+            <p:inputText value="#{prison.akudamaId}" converter="javax.faces.Integer"
+                         converterMessage="Разрешены только символы 0-9"
+                         required="true" requiredMessage="Поле 'ID' обязательно"/>
+            <p:outputLabel for="@previous" value="ID"/>
+            <p:commandButton action="#{prison.addAkudama()}" value="Добавить"
+                             update="@all" resetValues="true"/>
+            <f:facet name="options">
+                <p:menu>
+                    <p:submenu label="Settings">
+                        <p:menuitem value="Toggle" url="#" icon="pi pi-clone" onclick="PF('panel').toggle()"/>
+                    </p:submenu>
+                </p:menu>
+            </f:facet>
+        </p:panel>
     </h:form>
-</div>
-Тюрьма
+    <h:form id="list">
+        <ui:repeat value="#{prison.currentFrame}" var="prisoner">
+            <div class="bordered">
+                <p>Акудама ID: #{prisoner.akudama.id}</p>
+                <p>Имя: #{prisoner.akudama.human.name}</p>
+                <p><h:outputText rendered="#{prisoner.akudama.human.surname != null}"
+                                 value="Фамилия: #{prisoner.akudama.human.surname}"/></p>
+                <p>Дата заключения: #{prisoner.begin}</p>
+                <p>Дата освобождения: #{prisoner.end}</p>
+            </div>
+        </ui:repeat>
+        <p:commandButton value="&lt;" action="#{prison.moveBackward()}" rendered="#{prison.canMoveBackward}"
+                         update="@form"/>
+        Лист #{prison.currentPage}
+        <p:commandButton value="&gt;" action="#{prison.moveForward()}" rendered="#{prison.canMoveForward}"
+                         update="@form"/>
+    </h:form>
 </h:body>
 </html>
