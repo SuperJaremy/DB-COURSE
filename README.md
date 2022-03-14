@@ -7,7 +7,7 @@
 - WildFly или другой сервер приложений
 ## Настройка
 ### База данных
-Для конфигурации используются скрипты из директории (initdb)[https://github.com/SuperJaremy/DB-COURSE/tree/master/initdb].  
+Для конфигурации используются скрипты из директории [initdb](https://github.com/SuperJaremy/DB-COURSE/tree/master/initdb).  
 1. Перейдите в директорию initdb
 2. `psql`
 3. `\i create.sql`
